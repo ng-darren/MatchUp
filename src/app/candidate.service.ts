@@ -17,6 +17,8 @@ export class CandidateService {
     private http: HttpClient,
   ) { }
 
+
+
   /** GET jobs from the server */
    getCandidates(): Observable<Candidate[]> {
      return this.http.get<Candidate[]>(this.candidateUrl)
