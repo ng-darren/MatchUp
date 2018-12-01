@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   title: string = 'Match Up';
   jobs: Job[] = [];
   candidates: Candidate[] = [];
-  private skillSet: {} = {}
+  skillSet: {} = {}
 
   constructor(
     private candidateService: CandidateService,
