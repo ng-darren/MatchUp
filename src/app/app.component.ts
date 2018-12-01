@@ -12,7 +12,7 @@ import { JobService } from './job.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'matchUp';
+  title = 'Match Up';
   jobs: Job[] = [];
   candidates: Candidate[] = [];
 
