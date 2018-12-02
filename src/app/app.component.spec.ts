@@ -7,26 +7,27 @@ import { AppComponent } from './app.component';
 import { CandidateService } from './candidate.service';
 import { Candidate } from './candidate';
 import { JobService } from './job.service';
-import { Job } from './job';
 
 describe('AppComponent', () => {
+  let getCandidatesSpy, getJobsSpy;
+
   beforeEach(async(() => {
     const candidateService = jasmine.createSpyObj('CandidateService', ['getCandidates']);
     const jobService = jasmine.createSpyObj('JobService', ['getJobs']);
     const testCandidates: Candidate[] = [{
       candidateId: 1,
       name: 'Luke Skywalker',
-      skillTags: 'a, b, c'
+      skillTags: 'admin, b, c'
     }];
-    const testJobs: Job[] = [{
+    const testJobs: any[] = [{
       jobId: 1,
       name: 'traveller',
       company: 'AirrrrBnb',
-      skills: 'a, b, c'
+      skills: 'admin, b, c, d, e'
     }];
 
-    let getCandidatesSpy = candidateService.getCandidates.and.returnValue( of(testCandidates) );
-    let getJobsSpy = jobService.getJobs.and.returnValue( of(testJobs) );
+    getCandidatesSpy = candidateService.getCandidates.and.returnValue( of(testCandidates) );
+    getJobsSpy = jobService.getJobs.and.returnValue( of(testJobs) );
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -52,27 +53,30 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Match Up');
   });
 
-  it('should render title in a h1 tag', () => {
+  it('should render title in a h3 tag', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Match Up!');
+    expect(compiled.querySelector('h3').textContent).toContain('Welcome to Match Up!');
   });
 
   it('should get candidates and jobs in ngOnInit', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    expect(fixture.componentInstance.candidates).toEqual([{
-      candidateId: 1,
-      name: 'Luke Skywalker',
-      skillTags: 'a, b, c'
-    }]);
+    expect(fixture.componentInstance.candidates).toEqual({
+      1: {
+        candidateId: 1,
+        name: 'Luke Skywalker',
+        skillTags: 'admin, b, c'
+      }
+    });
 
     expect(fixture.componentInstance.jobs).toEqual([{
       jobId: 1,
       name: 'traveller',
       company: 'AirrrrBnb',
-      skills: 'a, b, c'
+      skills: 'admin, b, c, d, e',
+      topCandidates: [1]
     }]);
   });
 
@@ -80,9 +84,25 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     expect(fixture.componentInstance.skillSet).toEqual({
-      a: [1],
+      admin: [1],
       b: [1],
       c: [1]
     });
+  });
+
+  it('should filter top candidates in jobs', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    expect(fixture.componentInstance.skillSet).toEqual({
+      admin: [1],
+      b: [1],
+      c: [1]
+    });
+
+    fixture.detectChanges(); // update view
+
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('.card').textContent).toContain('AirrrrBnb');
+    expect(compiled.querySelector('table').textContent).toContain('Luke Skywalker');
   });
 });

@@ -3,4 +3,5 @@ export class Job {
   name: string;
   company: string;
   skills: string;
+  topCandidates: number[];
 }

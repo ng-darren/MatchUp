@@ -1,44 +1,51 @@
 <div class="container">
   <div class="row" style="text-align:center">
     <div class="col">
-      <h1>
+      <h3>
         Welcome to {{ title }}!
-      </h1>
+      </h3>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngFor="let job of jobs">
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Job Name</h5>
-          <p class="card-text text-muted">Company Name</p>
+          <h5 class="card-title">{{job.name}}</h5>
+          <p class="card-text text-muted">{{job.company}}</p>
           <div class="container">
             <div class="row">
               <div class="col">
                 <strong>Requirements (no. of candidates with skill set)</strong>
                 <ul>
-                  <li>qwerty (22)</li>
-                  <li>qwerty (17)</li>
-                  <li>qwerty (62)</li>
-                  <li>qwerty (2)</li>
-                </ul>
-              </div>
-              <div class="col">
-                <strong>Best Candidate Skills Set</strong>
-                <ul>
-                  <li>qwerty</li>
-                  <li>qwerty</li>
-                  <li>qwerty</li>
-                  <li>qwerty</li>
+                  <li *ngFor="let skill of job.skills.split(', ')">{{skill}} ({{skillSet[skill]? skillSet[skill].length : 0}})</li>
                 </ul>
               </div>
             </div>
+            <div class="row">
+              <div class="col">
+                <strong>Best Candidate<span *ngIf="job.topCandidates.length > 1">s</span></strong>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Id</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Skills</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="job.topCandidates.length">
+                    <tr *ngFor="let topCandidate of job.topCandidates; let k = index">
+                      <th scope="row">{{k+1}}</th>
+                      <td>{{candidates[topCandidate].candidateId}}</td>
+                      <td>{{candidates[topCandidate].name}}</td>
+                      <td>{{candidates[topCandidate].skillTags}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-
-          <strong>Best Candidate ID: Qwerty</strong>
-          <br />
-          <strong>Best Candidate Name: Qwerty</strong>
         </div>
       </div>
     </div>

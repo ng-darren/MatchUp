@@ -37,7 +37,8 @@ describe('JobService', () => {
       jobId: 1,
       name: 'traveller',
       company: 'AirrrrBnb',
-      skills: 'a, b, c'
+      skills: 'a, b, c',
+      topCandidates: []
     }];
 
     httpClientSpy.get.and.returnValue(asyncData(expectedJobs));
