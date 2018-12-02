@@ -5,6 +5,7 @@ import { Candidate } from './candidate';
 
 import { CandidateService } from './candidate.service';
 import { JobService } from './job.service';
+import { ErrorHandlerService } from "./error-handler.service";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private candidateService: CandidateService,
-    private jobService: JobService
+    private jobService: JobService,
+    public errorHandlerService: ErrorHandlerService
   ) {}
 
   ngOnInit() {

@@ -2,8 +2,16 @@
   <div class="row" style="text-align:center">
     <div class="col">
       <h3>
-        Welcome to {{ title }}!
+        Welcome to {{title}}!
       </h3>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="errorHandlerService.errorMessage.length">
+    <div class="col">
+      <div class="alert alert-danger" role="alert" *ngFor="let errorMessage of errorHandlerService.errorMessage">
+        {{errorMessage}}
+      </div>
     </div>
   </div>
 
@@ -23,7 +31,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col">
+              <div class="col" *ngIf="job.topCandidates.length">
                 <strong>Best Candidate<span *ngIf="job.topCandidates.length > 1">s</span></strong>
                 <table class="table table-striped">
                   <thead>
@@ -43,6 +51,9 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
+              <div class="col" *ngIf="job.topCandidates.length === 0">
+                <p class="alert-danger">&nbsp;No candidate found. </p>
               </div>
             </div>
           </div>

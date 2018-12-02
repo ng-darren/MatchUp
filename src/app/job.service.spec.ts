@@ -5,6 +5,7 @@ import { defer } from 'rxjs';
 
 import { JobService } from './job.service';
 import { Job } from './job';
+import { ErrorHandlerService } from './error-handler.service';
 
 function asyncData<T>(data: T) {
   return defer(() => Promise.resolve(data));
@@ -17,14 +18,16 @@ function asyncError<T>(data: T) {
 describe('JobService', () => {
   let service: JobService;
   let httpClientSpy: { get: jasmine.Spy };
+  let errorService: ErrorHandlerService
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule]
     });
 
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    service = new JobService(<any> httpClientSpy);
+    service = new JobService(<any> httpClientSpy, errorService);
+    errorService = new ErrorHandlerService();
   });
 
   it('should be created', () => {

@@ -6,15 +6,18 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Candidate } from './candidate';
+import { ErrorHandlerService } from "./error-handler.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CandidateService {
   private candidateUrl = 'http://private-76432-jobadder1.apiary-mock.com/candidates';  // URL to web api
+  errorMessage = '';
 
   constructor(
     private http: HttpClient,
+    public errorHandler: ErrorHandlerService
   ) { }
 
   /** GET jobs from the server */
@@ -35,8 +38,8 @@ export class CandidateService {
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: Complain in the UI
-       console.log(`${operation} failed: ${error.message}`);
+      // Complain in the UI
+      this.errorHandler.complain(`${operation} failed: ${error.message}`);
 
       // keep app running by returning an empty result.
       return of(result as T);
