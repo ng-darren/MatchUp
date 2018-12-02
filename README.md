@@ -16,5 +16,4 @@ job within the UI.
 5) Retrieve the best candidate information from candidate store using topCandidateId and display candidate information
 
 ## Note
-Built with Angular 7.1.0
-Uses Bootstrap CSS from CDN to make things prettier
+Built with Angular 7.1.0, uses Bootstrap CSS from CDN to make things prettier
